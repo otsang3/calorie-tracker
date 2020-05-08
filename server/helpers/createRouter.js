@@ -6,9 +6,7 @@ const createRouter = function (collection) {
   const router = express.Router();
 
   router.get('/', (req, res) => {
-    collection
-    .find()
-    .toArray()
+    collection.find().toArray()
     .then((docs) => res.json(docs))
     .catch((err) => {
       console.error(err);
@@ -19,8 +17,7 @@ const createRouter = function (collection) {
 
   router.get('/:id', (req, res) => {
     const id = req.params.id;
-    collection
-    .findOne({ _id: ObjectID(id) })
+    collection.findOne({ _id: ObjectID(id) })
     .then((doc) => res.json(doc))
     .catch((err) => {
       console.error(err);
@@ -30,8 +27,8 @@ const createRouter = function (collection) {
   });
 
   router.post('/', (req, res) => {
-    const newBooking = req.body;
-    collection.insertOne(newBooking)
+    const newItem = req.body;
+    collection.insertOne(newItem)
     .then(result => res.json(result.ops[0]))
     .catch((error) => {
       console.error(error);
@@ -42,13 +39,12 @@ const createRouter = function (collection) {
 
   router.put('/:id', (req, res) => {
     const id = req.params.id;
-    const updatedBooking = req.body;
+    const updatedItem = req.body;
     collection.findOneAndUpdate(
       {_id: ObjectID(id)},
-      {$set: updatedBooking},
+      {$set: updatedItem},
       {returnOriginal: false}
-    )
-    .then(result => res.json(result.value))
+    ).then(result => res.json(result.value))
     .catch((error) => {
       console.error(error);
       res.status(500);
@@ -58,12 +54,10 @@ const createRouter = function (collection) {
 
   router.delete('/:id', (req, res) => {
     const id = req.params.id;
-    collection
-    .deleteOne({ _id: ObjectID(id) })
+    collection.deleteOne({ _id: ObjectID(id) })
     .then(result => {
       res.json(result)
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.error(err);
       res.status(500);
       res.json({ status: 500, error: err });

@@ -11,9 +11,19 @@ app.use(cors());
 MongoClient.connect('mongodb://localhost:27017')
 .then((client) => {
   const db = client.db('calorie_tracker');
-  const detailsCollection = db.collection('personal_tracker');
-  const calorieTrackerRouter = createRouter(detailsCollection);
-  app.use('/api/tracker', calorieTrackerRouter);
+
+  const foodCollection = db.collection('foods');
+  const foodRouter = createRouter(foodCollection);
+  app.use('/api/tracker/foodItems', foodRouter);
+
+  const personCollection = db.collection('person');
+  const personRouter = createRouter(personCollection);
+  app.use('/api/tracker/person', personRouter);
+
+  const mealCollection = db.collection('meals');
+  const mealsRouter = createRouter(mealCollection);
+  app.use('/api/calorieTracker', mealsRouter);
+
 }).catch(console.error);
 
 app.listen(3000, function () {
