@@ -1,17 +1,18 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<template lang="html">
+  <div>
+    <person-form></person-form>
+    <food-form></food-form>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import foodForm from '@/components/foodForm.vue'
+import personForm from '@/components/personForm.vue'
 export default {
-  name: 'App',
+  name: 'app',
   components: {
-    HelloWorld
+    'food-form': foodForm,
+    'person-form': personForm
   }
 }
 </script>
