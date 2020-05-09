@@ -1,25 +1,44 @@
 <template lang="html">
-  <div>
-    <person-form></person-form>
-    <br>
-    <br>
-    <food-form></food-form>
-    <br>
-    <br>
-    <entries-form></entries-form>
+  <div id="app">
+    <calorie-tracker-form></calorie-tracker-form>
   </div>
 </template>
 
 <script>
-import foodForm from '@/components/foodForm.vue'
-import personForm from '@/components/personForm.vue'
-import entriesForm from '@/components/entriesForm.vue';
+import CalorieTrackerForm from '@/components/CalorieTrackerForm.vue';
+import TrackerService from '@/services/CalorieTrackerService.js';
+import {eventBus} from '@/main.js';
+
 export default {
-  name: 'app',
+  name: 'App',
+  data(){
+    return {
+      person: {},
+      meals: []
+    };
+  },
   components: {
-    'entries-form': entriesForm,
-    'food-form': foodForm,
-    'person-form': personForm
+    'calorie-tracker-form': CalorieTrackerForm
+  },
+  mounted(){
+    this.getPersonDetails();
+    this.getMealDetails();
+    eventBus.$on('new-person-added', (person) => {
+      this.person = person;
+    });
+    eventBus.$on('new-meal-added', (meal) => {
+      this.meals.push(meal);
+    });
+  },
+  methods:{
+    getPersonDetails(){
+      TrackerService.getPersonData()
+      .then(person => this.person = person[0]);
+    },
+    getMealDetails(){
+      TrackerService.getMealsData()
+      .then(meals => this.meals = meals);
+    }
   }
 }
 </script>
@@ -29,7 +48,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
   margin-top: 60px;
 }
