@@ -8,7 +8,9 @@ db.person.insertMany([
     weight: 100,
     gender: 'male',
     age: 40,
-    calories: 2750
+    dailyCalories: 2750,
+    caloriesLeft: 2750,
+    caloriesEntered: 0
   }
 ]);
 

@@ -68,52 +68,44 @@ export default {
       dailyRequiredCalories: 0,
       mealType: '',
       foodName: '',
-      foodCalories: 0
+      foodCalories: 0,
+      activityLevelValues: {
+          sedentary: 1.2,
+          lightlyActive: 1.375,
+          moderatelyActive: 1.55,
+          veryActive: 1.725
+        }
     }
   },
   methods: {
-    saveInfo(){
-      let femaleBMR = (655 + (9.6*this.weight) + (1.8*this.height) - (4.7*this.age))
-      let maleBMR = (66 + (13.7*this.weight) + (5*this.height) - (6.8*this.age))
+    calculateBMR(){
+      let femaleBMR = (655 + (9.6*this.weight) + (1.8*this.height) - (4.7*this.age));
+      let maleBMR = (66 + (13.7*this.weight) + (5*this.height) - (6.8*this.age));
 
-      if ((this.gender === 'female') && (this.activityLevel === 'sedentary')) {
-        this.dailyRequiredCalories = (femaleBMR * 1.2).toFixed(0)
+      if ((this.gender === 'female') && (Object.keys(this.activityLevelValues).includes(this.activityLevel))) {
+        this.dailyRequiredCalories = (femaleBMR * this.activityLevelValues[this.activityLevel]).toFixed(0);
 
-      } else if ((this.gender === 'female') && (this.activityLevel === 'lightlyActive')) {
-        this.dailyRequiredCalories = (femaleBMR * 1.375).toFixed(0)
-
-      } else if ((this.gender === 'female') && (this.activityLevel === 'moderatelyActive')) {
-        this.dailyRequiredCalories = (femaleBMR * 1.55).toFixed(0)
-
-      } else if ((this.gender === 'female') && (this.activityLevel === 'veryActive')) {
-        this.dailyRequiredCalories = (femaleBMR * 1.725).toFixed(0)
-
-      } else if ((this.gender === 'male') && (this.activityLevel === 'sedentary')) {
-        this.dailyRequiredCalories = (maleBMR * 1.2).toFixed(0)
-
-      } else if ((this.gender === 'male') && (this.activityLevel === 'lightlyActive')) {
-        this.dailyRequiredCalories = (maleBMR * 1.375).toFixed(0)
-
-      } else if ((this.gender === 'male') && (this.activityLevel === 'moderatelyActive')) {
-        this.dailyRequiredCalories = (maleBMR * 1.55).toFixed(0)
-
-      } else if ((this.gender === 'male') && (this.activityLevel === 'veryActive')) {
-        this.dailyRequiredCalories = (maleBMR * 1.725).toFixed(0)
+      } else if ((this.gender === 'male') && (Object.keys(this.activityLevelValues).includes(this.activityLevel))) {
+        this.dailyRequiredCalories = (maleBMR * this.activityLevelValues[this.activityLevel]).toFixed(0);
       }
-
+    },
+    saveInfo(){
+      this.calculateBMR();
       const newPerson = {
         name: this.name,
         gender: this.gender,
-        age: this.age,
-        height: this.height,
-        weight: this.weight,
-        calories: 2750
+        age: parseInt(this.age),
+        height: parseFloat(this.height),
+        weight: parseFloat(this.weight),
+        dailyCalories: parseInt(this.dailyRequiredCalories),
+        caloriesLeft: this.dailyRequiredCalories - parseInt(this.foodCalories),
+        caloriesEntered: this.dailyRequiredCalories - (this.dailyRequiredCalories - this.foodCalories)
       }
       const newMeal = {
         date: '09/05/2020'
       }
       newMeal[this.mealType] = {};
-      newMeal[this.mealType][this.foodName] = this.foodCalories;
+      newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
       TrackerService.postPersonData(newPerson)
       .then((person) => eventBus.$emit('new-person-added', person));
 
