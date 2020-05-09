@@ -98,8 +98,17 @@ export default {
       const result = this.meals.filter(meal => meal.date === moment().format('DD-MM-YYYY'))
       return result[0];
     },
+    calculateCalories(meal){
+      const mealTypes = [meal.breakfast, meal.lunch, meal.dinner];
+      // check this to ensure that it works when the array is empty
+      const values = mealTypes.map(mealType => Object.values(mealType).reduce((total, calorieValue) => total + calorieValue, 0));
+      const totalCalories = values.reduce((total, calorieValue) => total + calorieValue, 0);
+      const caloriesLeft = this.person.dailyCalories - totalCalories;
+      return [totalCalories, caloriesLeft];
+    },
     saveInfo(){
       this.calculateBMR();
+
       const newPerson = {
         name: this.name,
         gender: this.gender,
@@ -111,24 +120,30 @@ export default {
       const mealObject = this.checkMeal();
       const mealId = this.checkMeal()._id;
       delete mealObject._id // review this code
+      const totalCalories = this.calculateCalories(mealObject);
+      mealObject.caloriesLeft = totalCalories[1];
+      mealObject.caloriesEntered = totalCalories[0];
       if (Object.keys(mealObject).length > 0){
         const keyExists = Object.keys(mealObject).includes(this.mealType);
+
         if (keyExists){
           mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
         } else {
           mealObject[this.mealType] = {}; // review this code
           mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
         }
+
         TrackerService.updateMealDetails(mealObject, mealId)
         .then((meal) => eventBus.$emit('meal-updated', meal));
       } else {
         const newMeal = {
           date: moment().format('DD-MM-YYYY'),
-          caloriesLeft: this.dailyRequiredCalories - parseInt(this.foodCalories),
-          caloriesEntered: this.dailyRequiredCalories - (this.dailyRequiredCalories - this.foodCalories)
+          caloriesLeft: totalCalories[1],
+          caloriesEntered: totalCalories[0]
         }
         newMeal[this.mealType] = {};
         newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
+
         TrackerService.postMealsData(newMeal)
         .then((meal) => eventBus.$emit('new-meal-added', meal));
       }
