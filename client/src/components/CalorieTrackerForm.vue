@@ -1,36 +1,38 @@
 <template lang="html">
   <form v-on:submit.prevent="saveInfo" method="POST">
-    <h3>Person details</h3>
-    <label>Name:</label>
-    <input type="text" v-model="name">
+    <div v-if="!person">
+      <h3>Person details</h3>
+      <label>Name:</label>
+      <input type="text" v-model="name">
 
-    <label>Gender:</label>
-    <select v-model="gender">
-      <option disabled>Select a gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
+      <label>Gender:</label>
+      <select v-model="gender">
+        <option disabled>Select a gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
 
-    <label>Age:</label>
-    <input type="number" v-model="age">
+      <label>Age:</label>
+      <input type="number" v-model="age">
 
-    <label>Height (cm):</label>
-    <input type="numbers" v-model="height">
+      <label>Height (cm):</label>
+      <input type="numbers" v-model="height">
 
-    <label>Weight (kg):</label>
-    <input type="numbers" v-model="weight">
+      <label>Weight (kg):</label>
+      <input type="numbers" v-model="weight">
 
-    <label>Activity level:</label>
-    <select v-model="activityLevel">
-      <option disabled>Select an activity level</option>
-      <option value="sedentary">Sedentary (little to no exercise)</option>
-      <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
-      <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
-      <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
-    </select>
+      <label>Activity level:</label>
+      <select v-model="activityLevel">
+        <option disabled>Select an activity level</option>
+        <option value="sedentary">Sedentary (little to no exercise)</option>
+        <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
+        <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
+        <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
+      </select>
 
-    <label>Daily calories:</label>
-    <input type="numbers" v-model="dailyRequiredCalories" disabled>
+      <label>Daily calories:</label>
+      <input type="numbers" v-model="dailyRequiredCalories" disabled>
+    </div>
 
     <h3>Add food details</h3>
     <label for="">Food name:</label>
@@ -54,9 +56,11 @@
 <script>
 import TrackerService from '@/services/CalorieTrackerService.js';
 import {eventBus} from '@/main.js';
+import moment from 'moment';
 
 export default {
   name: 'calorie-tracker-form',
+  props: ['meals', 'person'],
   data(){
     return {
       name: '',
@@ -74,13 +78,14 @@ export default {
           lightlyActive: 1.375,
           moderatelyActive: 1.55,
           veryActive: 1.725
-        }
+        },
+      date: null
     }
   },
   methods: {
     calculateBMR(){
-      let femaleBMR = (655 + (9.6*this.weight) + (1.8*this.height) - (4.7*this.age));
-      let maleBMR = (66 + (13.7*this.weight) + (5*this.height) - (6.8*this.age));
+      const femaleBMR = (655 + (9.6*this.weight) + (1.8*this.height) - (4.7*this.age));
+      const maleBMR = (66 + (13.7*this.weight) + (5*this.height) - (6.8*this.age));
 
       if ((this.gender === 'female') && (Object.keys(this.activityLevelValues).includes(this.activityLevel))) {
         this.dailyRequiredCalories = (femaleBMR * this.activityLevelValues[this.activityLevel]).toFixed(0);
@@ -88,6 +93,10 @@ export default {
       } else if ((this.gender === 'male') && (Object.keys(this.activityLevelValues).includes(this.activityLevel))) {
         this.dailyRequiredCalories = (maleBMR * this.activityLevelValues[this.activityLevel]).toFixed(0);
       }
+    },
+    checkMeal(){
+      const result = this.meals.filter(meal => meal.date === moment().format('DD-MM-YYYY'))
+      return result[0];
     },
     saveInfo(){
       this.calculateBMR();
@@ -99,18 +108,35 @@ export default {
         weight: parseFloat(this.weight),
         dailyCalories: parseInt(this.dailyRequiredCalories)
       }
-      const newMeal = {
-        date: '09/05/2020',
-        caloriesLeft: this.dailyRequiredCalories - parseInt(this.foodCalories),
-        caloriesEntered: this.dailyRequiredCalories - (this.dailyRequiredCalories - this.foodCalories)
+      const mealObject = this.checkMeal();
+      const mealId = this.checkMeal()._id;
+      delete mealObject._id // review this code
+      if (Object.keys(mealObject).length > 0){
+        const keyExists = Object.keys(mealObject).includes(this.mealType);
+        if (keyExists){
+          mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
+        } else {
+          mealObject[this.mealType] = {}; // review this code
+          mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
+        }
+        TrackerService.updateMealDetails(mealObject, mealId)
+        .then((meal) => eventBus.$emit('meal-updated', meal));
+      } else {
+        const newMeal = {
+          date: moment().format('DD-MM-YYYY'),
+          caloriesLeft: this.dailyRequiredCalories - parseInt(this.foodCalories),
+          caloriesEntered: this.dailyRequiredCalories - (this.dailyRequiredCalories - this.foodCalories)
+        }
+        newMeal[this.mealType] = {};
+        newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
+        TrackerService.postMealsData(newMeal)
+        .then((meal) => eventBus.$emit('new-meal-added', meal));
       }
-      newMeal[this.mealType] = {};
-      newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
-      TrackerService.postPersonData(newPerson)
-      .then((person) => eventBus.$emit('new-person-added', person));
 
-      TrackerService.postMealsData(newMeal)
-      .then((meal) => eventBus.$emit('new-meal-added', meal));
+      if (!this.person){
+        TrackerService.postPersonData(newPerson)
+        .then((person) => eventBus.$emit('new-person-added', person));
+      }
     }
   }
 }

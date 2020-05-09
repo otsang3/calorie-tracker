@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="app">
-    <calorie-tracker-form></calorie-tracker-form>
+    <calorie-tracker-form :meals="meals" :person="person"></calorie-tracker-form>
   </div>
 </template>
 
@@ -29,6 +29,10 @@ export default {
     eventBus.$on('new-meal-added', (meal) => {
       this.meals.push(meal);
     });
+    eventBus.$on('meal-updated', (updatedMeal) => {
+      const index = this.meals.findIndex(meal => meal._id === updatedMeal._id);
+      this.meals.splice(index, 1, updatedMeal);
+    })
   },
   methods:{
     getPersonDetails(){
