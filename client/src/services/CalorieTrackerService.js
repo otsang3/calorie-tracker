@@ -1,6 +1,6 @@
-const personUrl = 'http://localhost:3000/api/tracker/person';
-const foodUrl = 'http://localhost:3000//api/tracker/foodItems';
-const mealsUrl = 'http://localhost:3000/api/calorieTracker';
+const personUrl = 'http://localhost:3000/api/tracker/person/';
+const foodUrl = 'http://localhost:3000//api/tracker/foodItems/';
+const mealsUrl = 'http://localhost:3000/api/calorieTracker/';
 
 export default {
   getPersonData() {
