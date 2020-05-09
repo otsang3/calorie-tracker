@@ -97,12 +97,12 @@ export default {
         age: parseInt(this.age),
         height: parseFloat(this.height),
         weight: parseFloat(this.weight),
-        dailyCalories: parseInt(this.dailyRequiredCalories),
-        caloriesLeft: this.dailyRequiredCalories - parseInt(this.foodCalories),
-        caloriesEntered: this.dailyRequiredCalories - (this.dailyRequiredCalories - this.foodCalories)
+        dailyCalories: parseInt(this.dailyRequiredCalories)
       }
       const newMeal = {
-        date: '09/05/2020'
+        date: '09/05/2020',
+        caloriesLeft: this.dailyRequiredCalories - parseInt(this.foodCalories),
+        caloriesEntered: this.dailyRequiredCalories - (this.dailyRequiredCalories - this.foodCalories)
       }
       newMeal[this.mealType] = {};
       newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
