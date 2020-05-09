@@ -20,6 +20,15 @@
     <label>Weight (kg):</label>
     <input type="numbers" v-model="weight">
 
+    <label>Activity level:</label>
+    <select v-model="activityLevel">
+      <option disabled>Select an activity level</option>
+      <option value="sedentary">Sedentary (little to no exercise)</option>
+      <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
+      <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
+      <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
+    </select>
+
     <label>Daily calories:</label>
     <input type="numbers" v-model="dailyRequiredCalories" disabled>
 
@@ -55,6 +64,7 @@ export default {
       age: 0,
       height: 0,
       weight: 0,
+      activityLevel: '',
       dailyRequiredCalories: 0,
       mealType: '',
       foodName: '',
@@ -63,6 +73,34 @@ export default {
   },
   methods: {
     saveInfo(){
+      let femaleBMR = (655 + (9.6*this.weight) + (1.8*this.height) - (4.7*this.age))
+      let maleBMR = (66 + (13.7*this.weight) + (5*this.height) - (6.8*this.age))
+
+      if ((this.gender === 'female') && (this.activityLevel === 'sedentary')) {
+        this.dailyRequiredCalories = (femaleBMR * 1.2).toFixed(0)
+
+      } else if ((this.gender === 'female') && (this.activityLevel === 'lightlyActive')) {
+        this.dailyRequiredCalories = (femaleBMR * 1.375).toFixed(0)
+
+      } else if ((this.gender === 'female') && (this.activityLevel === 'moderatelyActive')) {
+        this.dailyRequiredCalories = (femaleBMR * 1.55).toFixed(0)
+
+      } else if ((this.gender === 'female') && (this.activityLevel === 'veryActive')) {
+        this.dailyRequiredCalories = (femaleBMR * 1.725).toFixed(0)
+
+      } else if ((this.gender === 'male') && (this.activityLevel === 'sedentary')) {
+        this.dailyRequiredCalories = (maleBMR * 1.2).toFixed(0)
+
+      } else if ((this.gender === 'male') && (this.activityLevel === 'lightlyActive')) {
+        this.dailyRequiredCalories = (maleBMR * 1.375).toFixed(0)
+
+      } else if ((this.gender === 'male') && (this.activityLevel === 'moderatelyActive')) {
+        this.dailyRequiredCalories = (maleBMR * 1.55).toFixed(0)
+
+      } else if ((this.gender === 'male') && (this.activityLevel === 'veryActive')) {
+        this.dailyRequiredCalories = (maleBMR * 1.725).toFixed(0)
+      }
+
       const newPerson = {
         name: this.name,
         gender: this.gender,
