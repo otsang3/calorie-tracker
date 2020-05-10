@@ -102,7 +102,6 @@ export default {
     calculateCalories(meal){
       let totalCalories = 0;
       if (this.checkMeal() != null) {
-        // review this code
         const mealTypes = ["breakfast", "lunch", "dinner"];
         const types = mealTypes.filter(mealType => Object.keys(meal).includes(mealType));
         const values = types.map(type => Object.values(meal[type]).reduce((total, calorieValue) => total + calorieValue, 0));
@@ -131,17 +130,17 @@ export default {
       if (this.person){
         if (this.checkMeal() != null) {
           const mealObject = this.checkMeal();
-          const keyExists = Object.keys(mealObject).includes(this.mealType); // move this line???
+          const keyExists = Object.keys(mealObject).includes(this.mealType);
           const mealId = this.checkMeal()._id;
-          delete mealObject._id // review this code
+          delete mealObject._id
 
           if (keyExists){
             mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
           } else {
-            mealObject[this.mealType] = {}; // review this code
+            mealObject[this.mealType] = {};
             mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
           }
-          const totalCalories = this.calculateCalories(mealObject); // change name to arraytotalCalories as its an array
+          const totalCalories = this.calculateCalories(mealObject);
           mealObject.caloriesLeft = totalCalories[1];
           mealObject.caloriesEntered = totalCalories[0];
 
