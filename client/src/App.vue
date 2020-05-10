@@ -26,13 +26,22 @@ export default {
     eventBus.$on('new-person-added', (person) => {
       this.person = person;
     });
+    eventBus.$on('person-details-updated', (person) => {
+      this.person = person;
+    });
+    eventBus.$on('profile-deleted', () => {
+      this.person = null;
+    });
     eventBus.$on('new-meal-added', (meal) => {
       this.meals.push(meal);
     });
     eventBus.$on('meal-updated', (updatedMeal) => {
       const index = this.meals.findIndex(meal => meal._id === updatedMeal._id);
       this.meals.splice(index, 1, updatedMeal);
-    })
+    });
+    eventBus.$on('all-meals-deleted', (meals) => {
+      this.meals = meals;
+    });
   },
   methods:{
     getPersonDetails(){
