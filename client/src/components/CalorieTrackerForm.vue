@@ -33,24 +33,24 @@
       <label>Daily calories:</label>
       <input type="numbers" v-model="dailyRequiredCalories" disabled>
     </div>
+    <div v-else>
+      <p>Hello, {{person.name}}</p>
+      <h3>Add food details</h3>
+      <label for="">Food name:</label>
+      <input type="text" v-model="foodName">
 
-    <p>Hello, {{person.name}}</p>
-    <h3>Add food details</h3>
-    <label for="">Food name:</label>
-    <input type="text" v-model="foodName">
+      <label>Meal type:</label>
+      <select v-model="mealType">
+        <option disabled>Select a meal type</option>
+        <option value="breakfast">breakfast</option>
+        <option value="lunch">lunch</option>
+        <option value="dinner">dinner</option>
+      </select>
 
-    <label>Meal type:</label>
-    <select v-model="mealType">
-      <option disabled>Select a meal type</option>
-      <option value="breakfast">breakfast</option>
-      <option value="lunch">lunch</option>
-      <option value="dinner">dinner</option>
-    </select>
-
-    <label for="">Calories</label>
-    <input type="number" v-model="foodCalories">
-
-    <input type="submit" value="save details">
+      <label for="">Calories</label>
+      <input type="number" v-model="foodCalories">
+    </div>
+      <input type="submit" value="save details">
   </form>
 </template>
 
@@ -102,6 +102,7 @@ export default {
     calculateCalories(meal){
       let totalCalories = 0;
       if (this.checkMeal() != null) {
+        // review this code
         const mealTypes = ["breakfast", "lunch", "dinner"];
         const types = mealTypes.filter(mealType => Object.keys(meal).includes(mealType));
         const values = types.map(type => Object.values(meal[type]).reduce((total, calorieValue) => total + calorieValue, 0));
@@ -113,50 +114,52 @@ export default {
     saveInfo(){
       this.calculateBMR();
 
-      const newPerson = {
-        name: this.name,
-        gender: this.gender,
-        age: parseInt(this.age),
-        height: parseFloat(this.height),
-        weight: parseFloat(this.weight),
-        dailyCalories: parseInt(this.dailyRequiredCalories)
-      }
-
-      if (this.checkMeal() != null) {
-        const mealObject = this.checkMeal();
-        const keyExists = Object.keys(mealObject).includes(this.mealType);
-        const mealId = this.checkMeal()._id;
-        delete mealObject._id // review this code
-
-        if (keyExists){
-          mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
-        } else {
-          mealObject[this.mealType] = {}; // review this code
-          mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
-        }
-        const totalCalories = this.calculateCalories(mealObject);
-        mealObject.caloriesLeft = totalCalories[1];
-        mealObject.caloriesEntered = totalCalories[0];
-
-        TrackerService.updateMealDetails(mealObject, mealId)
-        .then((meal) => eventBus.$emit('meal-updated', meal));
-      } else {
-        const totalCalories = this.calculateCalories(newMeal);
-        const newMeal = {
-          date: moment().format('DD-MM-YYYY'),
-          caloriesLeft: totalCalories[1] - parseInt(this.foodCalories),
-          caloriesEntered: totalCalories[0] + parseInt(this.foodCalories)
-        }
-        newMeal[this.mealType] = {};
-        newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
-
-        TrackerService.postMealsData(newMeal)
-        .then((meal) => eventBus.$emit('new-meal-added', meal));
-      }
-
       if (!this.person){
+        const newPerson = {
+          name: this.name,
+          gender: this.gender,
+          age: parseInt(this.age),
+          height: parseFloat(this.height),
+          weight: parseFloat(this.weight),
+          dailyCalories: parseInt(this.dailyRequiredCalories)
+        }
+
         TrackerService.postPersonData(newPerson)
         .then((person) => eventBus.$emit('new-person-added', person));
+      }
+
+      if (this.person){
+        if (this.checkMeal() != null) {
+          const mealObject = this.checkMeal();
+          const keyExists = Object.keys(mealObject).includes(this.mealType); // move this line???
+          const mealId = this.checkMeal()._id;
+          delete mealObject._id // review this code
+
+          if (keyExists){
+            mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
+          } else {
+            mealObject[this.mealType] = {}; // review this code
+            mealObject[this.mealType][this.foodName] = parseInt(this.foodCalories);
+          }
+          const totalCalories = this.calculateCalories(mealObject); // change name to arraytotalCalories as its an array
+          mealObject.caloriesLeft = totalCalories[1];
+          mealObject.caloriesEntered = totalCalories[0];
+
+          TrackerService.updateMealDetails(mealObject, mealId)
+          .then((meal) => eventBus.$emit('meal-updated', meal));
+        } else {
+          const totalCalories = this.calculateCalories(newMeal);
+          const newMeal = {
+            date: moment().format('DD-MM-YYYY'),
+            caloriesLeft: totalCalories[1] - parseInt(this.foodCalories),
+            caloriesEntered: totalCalories[0] + parseInt(this.foodCalories)
+          }
+          newMeal[this.mealType] = {};
+          newMeal[this.mealType][this.foodName] = parseInt(this.foodCalories);
+
+          TrackerService.postMealsData(newMeal)
+          .then((meal) => eventBus.$emit('new-meal-added', meal));
+        }
       }
     }
   }
