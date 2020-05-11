@@ -1,6 +1,7 @@
 <template lang="html">
   <div id="app" style="position:absolute; width:600px; height:600px;">
     <canvas id="calories-chart"></canvas>
+    <p for="">Daily Calories: {{this.meals[0].caloriesEntered}}</p>
   </div>
 </template>
 
@@ -12,7 +13,8 @@ export default {
   return {
     caloriesChartData: null,
     mealDates: [],
-    mealCalories: []
+    mealCalories: [],
+    chartColors: []
   }
 },
   methods: {
@@ -27,6 +29,13 @@ export default {
     getChartData(){
       this.mealDates = this.meals.map(meal => meal.date)
       this.mealCalories = this.meals.map(meal => meal.caloriesEntered)
+      this.chartColors = this.meals.map(meal => {
+        if (meal.caloriesLeft < 0) {
+          return '#ff8080'
+        } else {
+          return '#b3ffd9'
+        }
+      })
     },
   getCaloriesData(){
     this.getChartData()
@@ -38,45 +47,38 @@ export default {
           {
             label: 'Calories consumed',
             data: this.mealCalories.flat(),
-            backgroundColor: [
-              '#ff8080',
-              '#ffff99',
-              '#b3ffd9',
-              '#ff8080',
-              '#ffff99',
-              '#ffff99',
-              '#b3ffd9'
-
-            ],
-            borderColor: [
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-              '#36495d',
-            ],
+            backgroundColor: this.chartColors,
+            // borderColor: [
+            //   '#36495d',
+            //   '#36495d',
+            //   '#36495d',
+            //   '#36495d',
+            //   '#36495d',
+            //   '#36495d',
+            //   '#36495d',
+            //   '#36495d',
+            // ],
             borderWidth: 2
           }
         ]
       },
       options: {
-        responsive: true,
-        lineTension: 1,
-        scales: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Calories Consumed'
+      },
+      scales: {
           yAxes: [{
             ticks: {
               beginAtZero: true,
               padding: 5,
+              max: 4500
             }
           }]
         }
       }
     }
-
-
   }
 },
 mounted() {
@@ -95,4 +97,7 @@ watch: {
 </script>
 
 <style lang="css" scoped>
+p {
+  text-align: center;
+}
 </style>
