@@ -3,9 +3,9 @@
     <p>Date: {{meal.date}}</p>
     <p>Calories left: {{meal.caloriesLeft}}</p>
     <p>Calories added: {{meal.caloriesEntered}}</p>
-    <p>Breakfast: {{breakfast}}</p>
-    <p>Lunch: {{lunch}}</p>
-    <p>Dinner: {{dinner}}</p>
+    <p v-if="breakfast" >Breakfast: {{breakfast}}</p>
+    <p v-if="lunch">Lunch: {{lunch}}</p>
+    <p v-if="dinner">Dinner: {{dinner}}</p>
   </div>
 </template>
 
