@@ -3,7 +3,8 @@
     <p>Date: {{meal.date}}</p>
     <p>Calories left: {{meal.caloriesLeft}}</p>
     <p>Calories added: {{meal.caloriesEntered}}</p>
-    <p v-if="breakfast" >Breakfast: {{breakfast}}</p>
+    <p v-if="breakfast" v-for="(food, index) in breakfast" >Breakfast: {{food}}<button v-on:click="handleDelete" type="button">delete</button></p>
+
     <p v-if="lunch">Lunch: {{lunch}}</p>
     <p v-if="dinner">Dinner: {{dinner}}</p>
   </div>
@@ -35,6 +36,9 @@ export default {
       if (this.meal[type]) {
         return (Object.keys(this.meal[type]).map((key, index) => [key, Object.values(this.meal[type])[index]])).flat();
       }
+    },
+    handleDelete(){
+      console.log(this.meal.food);
     }
   }
 }
