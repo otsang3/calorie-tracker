@@ -1,5 +1,6 @@
 <template lang="html">
   <section>
+    <h3>Filter log</h3>
     <p>Please enter a date range:</p>
     <form v-on:submit.prevent="filterData">
     <label for="from">From:</label>
@@ -13,6 +14,7 @@
 </template>
 
 <script>
+import {eventBus} from '@/main.js'
 import List from '@/components/FilteredList.vue';
 import moment from 'moment';
 
@@ -43,6 +45,7 @@ export default {
       this.formatData();
       const result = this.meals.filter(meal => meal.date >= this.dates.from && meal.date <= this.dates.to);
       this.selectedMeals = result;
+      eventBus.$emit('selected-meals', this.selectedMeals)
     }
   }
 }

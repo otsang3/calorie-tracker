@@ -1,15 +1,15 @@
 <template lang="html">
   <div id="app">
     <calorie-tracker-form :meals="meals" :person="person"></calorie-tracker-form>
+    <log-list :meals="meals"></log-list>
     <filter-data-by-date :meals="meals"></filter-data-by-date>
-    <meal-list :meals="meals"></meal-list>
-    <tracker-chart :meals="meals"></tracker-chart>
+    <tracker-chart v-if="selectedMeals.length" :meals="selectedMeals"></tracker-chart>
   </div>
 </template>
 
 <script>
 import CalorieTrackerForm from '@/components/CalorieTrackerForm.vue';
-import MealList from '@/components/MealList.vue'
+import LogList from '@/components/LogList.vue'
 import FilterForm from '@/components/FilterForm.vue';
 import TrackerChart from '@/components/TrackerChart.vue';
 import TrackerService from '@/services/CalorieTrackerService.js';
@@ -19,13 +19,14 @@ export default {
   name: 'App',
   data(){
     return {
-      person: null,
-      meals: []
+      person: {},
+      meals: [],
+      selectedMeals: []
     };
   },
   components: {
     'calorie-tracker-form': CalorieTrackerForm,
-    'meal-list': MealList,
+    'log-list': LogList,
     'filter-data-by-date': FilterForm,
     'tracker-chart': TrackerChart
   },
@@ -51,11 +52,22 @@ export default {
     eventBus.$on('all-meals-deleted', (meals) => {
       this.meals = meals;
     });
+    eventBus.$on('selected-meals', (meals) => {
+      this.selectedMeals = meals
+    })
   },
   methods:{
     getPersonDetails(){
       TrackerService.getPersonData()
-      .then(person => this.person = person[0]);
+      .then((person) => {
+        if (person[0]) {
+          this.person = person[0]
+        } else {
+          this.person = null
+        }
+      })
+
+
     },
     getMealDetails(){
       TrackerService.getMealsData()

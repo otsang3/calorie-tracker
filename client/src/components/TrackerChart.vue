@@ -82,6 +82,14 @@ export default {
 mounted() {
   this.getCaloriesData()
   this.createChart('calories-chart', this.caloriesChartData);
+},
+watch: {
+  meals: function(){
+    if (this.meals) {
+      this.getCaloriesData();
+      this.createChart('calories-chart', this.caloriesChartData);
+    }
+  }
 }
 }
 </script>

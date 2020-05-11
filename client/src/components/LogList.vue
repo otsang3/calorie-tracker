@@ -1,16 +1,16 @@
 <template lang="html">
   <div>
     <h3>Calorie Log</h3>
-    <meal-list-item v-for="(meal, index) in meals" :key="index" :meal="meal"></meal-list-item>
+    <log-list-item v-for="(meal, index) in meals" :key="index" :meal="meal"></log-list-item>
   </div>
 </template>
 
 <script>
-import MealListItem from '@/components/MealListItem.vue'
+import LogListItem from '@/components/LogListItem.vue'
 export default {
   name: 'meal-list',
   components: {
-    'meal-list-item': MealListItem
+    'log-list-item': LogListItem
   },
   props: ['meals']
 }
