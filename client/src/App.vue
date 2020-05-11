@@ -1,11 +1,13 @@
 <template lang="html">
   <div id="app">
     <calorie-tracker-form :meals="meals" :person="person"></calorie-tracker-form>
+    <filter-data-by-date :meals="meals"></filter-data-by-date>
   </div>
 </template>
 
 <script>
 import CalorieTrackerForm from '@/components/CalorieTrackerForm.vue';
+import FilterForm from '@/components/FilterForm.vue';
 import TrackerService from '@/services/CalorieTrackerService.js';
 import {eventBus} from '@/main.js';
 
@@ -18,7 +20,8 @@ export default {
     };
   },
   components: {
-    'calorie-tracker-form': CalorieTrackerForm
+    'calorie-tracker-form': CalorieTrackerForm,
+    'filter-data-by-date': FilterForm
   },
   mounted(){
     this.getPersonDetails();

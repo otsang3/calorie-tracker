@@ -112,6 +112,7 @@ export default {
   mounted(){
     if (this.person){
       this.age = this.person.age;
+      console.log();
       this.height = this.person.height;
       this.weight = this.person.weight;
       this.gender = this.person.gender;
