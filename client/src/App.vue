@@ -1,14 +1,12 @@
 <template lang="html">
   <div id="app">
     <calorie-tracker-form :meals="meals" :person="person"></calorie-tracker-form>
-    <meal-list :meals="meals"></meal-list>
     <tracker-chart :meals="meals"></tracker-chart>
   </div>
 </template>
 
 <script>
 import CalorieTrackerForm from '@/components/CalorieTrackerForm.vue';
-import MealList from '@/components/MealList.vue';
 import TrackerChart from '@/components/TrackerChart.vue';
 import TrackerService from '@/services/CalorieTrackerService.js';
 import {eventBus} from '@/main.js';
@@ -23,7 +21,6 @@ export default {
   },
   components: {
     'calorie-tracker-form': CalorieTrackerForm,
-    'meal-list': MealList,
     'tracker-chart': TrackerChart
   },
   mounted(){
