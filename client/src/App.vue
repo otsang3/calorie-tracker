@@ -2,7 +2,7 @@
   <div id="app">
     <calorie-tracker-form :meals="meals" :person="person"></calorie-tracker-form>
     <meal-list :meals="meals"></meal-list>
-    <tracker-chart></tracker-chart>
+    <tracker-chart :meals="meals"></tracker-chart>
   </div>
 </template>
 
@@ -48,7 +48,8 @@ export default {
     getMealDetails(){
       TrackerService.getMealsData()
       .then(meals => this.meals = meals);
-    }
+    },
+
   }
 }
 </script>

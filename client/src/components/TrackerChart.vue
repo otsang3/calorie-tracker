@@ -1,32 +1,68 @@
 <template lang="html">
-  <div id="app" style="position:absolute; width:600px; height:600px;">
-    <canvas id="calories-chart"></canvas>
-    <label>Daily Target: 2500 cals</label>
-  </div>
+  <GChart :type="chartType" :data="getChartData" :options="chartOptions"></GChart>
 </template>
 
 <script>
-
-import caloriesChartData from './chart-data.js';
+import { GChart } from 'vue-google-charts'
 export default {
-  data() {
-  return {
-    caloriesChartData: caloriesChartData,
+  name: 'calorie-chart-tracker',
+  props: ['meals'],
+  data(){
+    return {
+      chartType: 'ColumnChart',
+      chartOptions: {
+        width: 800,
+        height: 240,
+        title: 'Calorie Tracker',
+        backgroundColor: [
+          '#ff8080',
+          '#ffff99',
+          '#b3ffd9',
+          '#ff8080',
+          '#ffff99',
+          '#ffff99',
+          '#b3ffd9'
+
+        ],
+        borderColor: [
+          '#36495d',
+          '#ff8080',
+          '#36495d',
+          '#36495d',
+          '#36495d',
+          '#36495d',
+          '#36495d',
+          '#36495d',
+        ],
+        borderWidth: 2,
+        responsive: true,
+        lineTension: 1,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              padding: 5,
+            }
+          }]
+        }
+      }
+    }
+  },
+  components: {
+    GChart
+  },
+  computed: {
+    getChartData(){
+      // if (this.meals)
+      const mealDates = this.meals.map(meal => meal.date)
+      const mealCalories = this.meals.map(meal => meal.caloriesEntered)
+      const chartData = mealDates.map((date, index) => {
+        return [date, mealCalories[index]]
+      })
+      chartData.unshift(["date", "calories"])
+      return chartData
+    }
   }
-},
-  methods: {
-  createChart(chartId, chartData) {
-    const ctx = document.getElementById(chartId);
-    const myChart = new Chart(ctx, {
-      type: chartData.type,
-      data: chartData.data,
-      options: chartData.options,
-    });
-  }
-},
-mounted() {
-  this.createChart('calories-chart', this.caloriesChartData);
-}
 }
 </script>
 
