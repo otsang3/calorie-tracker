@@ -115,6 +115,7 @@ export default {
         this.age = this.person.age;
         this.height = this.person.height;
         this.weight = this.person.weight;
+        this.dailyRequiredCalories = this.person.dailyCalories
       }
     }
   },
