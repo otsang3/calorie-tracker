@@ -1,40 +1,68 @@
 <template lang="html">
-  <GChart :type="chartType" :data="getChartData" :options="chartOptions"></GChart>
+  <div id="app" style="position:absolute; width:600px; height:600px;">
+    <canvas id="calories-chart"></canvas>
+  </div>
 </template>
 
 <script>
-import { GChart } from 'vue-google-charts'
 export default {
   name: 'calorie-chart-tracker',
   props: ['meals'],
-  data(){
-    return {
-      chartType: 'ColumnChart',
-      chartOptions: {
-        width: 800,
-        height: 240,
-        title: 'Calorie Tracker',
-        backgroundColor: [
-          '#ff8080',
-          '#ffff99',
-          '#b3ffd9',
-          '#ff8080',
-          '#ffff99',
-          '#ffff99',
-          '#b3ffd9'
+  data() {
+  return {
+    caloriesChartData: null,
+    mealDates: [],
+    mealCalories: []
+  }
+},
+  methods: {
+  createChart(chartId, chartData) {
+    const ctx = document.getElementById(chartId);
+    const myChart = new Chart(ctx, {
+      type: chartData.type,
+      data: chartData.data,
+      options: chartData.options,
+    });
+  },
+    getChartData(){
+      this.mealDates = this.meals.map(meal => meal.date)
+      this.mealCalories = this.meals.map(meal => meal.caloriesEntered)
+    },
+  getCaloriesData(){
+    this.getChartData()
+    return this.caloriesChartData = {
+      type: 'bar',
+      data: {
+        labels: this.mealDates.flat(),
+        datasets: [
+          {
+            label: 'Calories consumed',
+            data: this.mealCalories.flat(),
+            backgroundColor: [
+              '#ff8080',
+              '#ffff99',
+              '#b3ffd9',
+              '#ff8080',
+              '#ffff99',
+              '#ffff99',
+              '#b3ffd9'
 
-        ],
-        borderColor: [
-          '#36495d',
-          '#ff8080',
-          '#36495d',
-          '#36495d',
-          '#36495d',
-          '#36495d',
-          '#36495d',
-          '#36495d',
-        ],
-        borderWidth: 2,
+            ],
+            borderColor: [
+              '#36495d',
+              '#36495d',
+              '#36495d',
+              '#36495d',
+              '#36495d',
+              '#36495d',
+              '#36495d',
+              '#36495d',
+            ],
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
         responsive: true,
         lineTension: 1,
         scales: {
@@ -47,21 +75,14 @@ export default {
         }
       }
     }
-  },
-  components: {
-    GChart
-  },
-  computed: {
-    getChartData(){
-      const mealDates = this.meals.map(meal => meal.date)
-      const mealCalories = this.meals.map(meal => meal.caloriesEntered)
-      const chartData = mealDates.map((date, index) => {
-        return [date, mealCalories[index]]
-      })
-      chartData.unshift(["date", "calories"])
-      return chartData
-    }
+
+
   }
+},
+mounted() {
+  this.getCaloriesData()
+  this.createChart('calories-chart', this.caloriesChartData);
+}
 }
 </script>
 
