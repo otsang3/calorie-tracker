@@ -63,6 +63,17 @@ const createRouter = function (collection) {
       res.json({ status: 500, error: err });
     });
   });
+
+  router.delete('/', (req, res) => {
+    collection.remove({})
+    .then(result => {
+      res.json(result)
+    }).catch((err) => {
+      console.error(err);
+      res.status(500);
+      res.json({ status: 500, error: err });
+    });
+  });
   return router;
 };
 

@@ -58,8 +58,16 @@ export default {
     }).then(res => res.json())
   },
 
+  deletePerson(id){
+    return fetch(personUrl + id, {method: 'DELETE'})
+  },
+
   deleteMeal(id){
     return fetch(mealsUrl + id, {method: 'DELETE'})
+  },
+
+  deleteMeal(){
+    return fetch(mealsUrl, {method: 'DELETE'})
   }
 
 }
