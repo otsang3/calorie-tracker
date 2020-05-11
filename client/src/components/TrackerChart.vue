@@ -53,7 +53,6 @@ export default {
   },
   computed: {
     getChartData(){
-      // if (this.meals)
       const mealDates = this.meals.map(meal => meal.date)
       const mealCalories = this.meals.map(meal => meal.caloriesEntered)
       const chartData = mealDates.map((date, index) => {
