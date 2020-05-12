@@ -134,7 +134,7 @@
       <div v-bind:class="person ? 'save-details' : 'save-details-2'">
           <input type="submit" value="save details">
       </div>
-        <!-- <input class="save-details" type="submit" value="save details"> -->
+        
     </form>
   </div>
 </template>
