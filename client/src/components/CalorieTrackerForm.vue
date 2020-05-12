@@ -15,11 +15,11 @@
 
         <div>
           <label>Height (cm):</label>
-          <input type="numbers" v-model="height">
+          <input type="number" v-model="height">
         </div>
         <div>
           <label>Weight (kg):</label>
-          <input type="numbers" v-model="weight">
+          <input type="number" v-model="weight">
         </div>
 
         <div>
@@ -78,7 +78,7 @@
               <label>Height (cm)</label>
               <input type="number" v-model="height">
             </div>
-            
+
             <div class="">
               <label>Weight (kg)</label>
               <input type="number" v-model="weight">
