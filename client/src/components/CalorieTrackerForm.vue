@@ -95,7 +95,7 @@ export default {
       age: 0,
       height: 0,
       weight: 0,
-      activityLevel: '',
+      activityLevel: 'sedentary',
       dailyRequiredCalories: 0,
       mealType: '',
       foodName: '',
@@ -115,7 +115,8 @@ export default {
         this.age = this.person.age;
         this.height = this.person.height;
         this.weight = this.person.weight;
-        this.dailyRequiredCalories = this.person.dailyCalories
+        this.gender = this.person.gender;
+        this.activityLevel = this.person.activityLevel;
       }
     }
   },
@@ -153,6 +154,7 @@ export default {
         const newPerson = {
           name: this.name,
           gender: this.gender,
+          activityLevel: this.activityLevel,
           age: parseInt(this.age),
           height: parseFloat(this.height),
           weight: parseFloat(this.weight),
@@ -202,6 +204,7 @@ export default {
         age: parseInt(this.age),
         height: parseFloat(this.height),
         weight: parseFloat(this.weight),
+        activityLevel: this.activityLevel,
         dailyCalories: parseInt(this.dailyRequiredCalories)
       }
       TrackerService.updatePersonDetails(updateDetails, this.person._id)
