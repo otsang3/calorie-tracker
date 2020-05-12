@@ -10,14 +10,14 @@
         <button v-on:click="deleteMeal(key, mealTypes[0])">delete</button>
       </div>
     </div>
-    <div v-else-if="meal.lunch">
+    <div v-if="meal.lunch">
       <h4>Lunch</h4>
       <div v-for="[key, value] of Object.entries(meal.lunch)">
         {{key}} : <input type="number" v-model="value"><button v-on:click="updateMeal(key, value, mealTypes[1])">update</button>
         <button v-on:click="deleteMeal(key, mealTypes[1])">delete</button>
       </div>
     </div>
-    <div v-else-if="meal.dinner">
+    <div v-if="meal.dinner">
       <h4>Dinner</h4>
       <div v-for="[key, value] of Object.entries(meal.dinner)">
         {{key}} : <input type="number" v-model="value"><button v-on:click="updateMeal(key, value, mealTypes[2])">update</button>
