@@ -33,6 +33,10 @@ export default {
   mounted(){
     this.getPersonDetails();
     this.getMealDetails();
+    const mealsCallBack = (updatedMeal) => {
+      const index = this.meals.findIndex(meal => meal._id === updatedMeal._id);
+      this.meals.splice(index, 1, updatedMeal);
+    };
     eventBus.$on('new-person-added', (person) => {
       this.person = person;
     });
@@ -45,10 +49,9 @@ export default {
     eventBus.$on('new-meal-added', (meal) => {
       this.meals.push(meal);
     });
-    eventBus.$on('meal-updated', (updatedMeal) => {
-      const index = this.meals.findIndex(meal => meal._id === updatedMeal._id);
-      this.meals.splice(index, 1, updatedMeal);
-    });
+    eventBus.$on('meal-updated', mealsCallBack);
+    eventBus.$on('meal-item-updated', mealsCallBack);
+    eventBus.$on('meal-item-deleted', mealsCallBack);
     eventBus.$on('all-meals-deleted', (meals) => {
       this.meals = meals;
     });
@@ -65,15 +68,12 @@ export default {
         } else {
           this.person = null
         }
-      })
-
-
+      });
     },
     getMealDetails(){
       TrackerService.getMealsData()
       .then(meals => this.meals = meals);
-    },
-
+    }
   }
 }
 </script>

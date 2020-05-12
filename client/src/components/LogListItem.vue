@@ -8,7 +8,7 @@
 import {eventBus} from '@/main.js'
 import CalorieTrackerService from '@/services/CalorieTrackerService.js'
 export default {
-  name: 'meal-list-item',
+  name: 'log-list-item',
   data(){
     return {
       date: this.meal.date,
