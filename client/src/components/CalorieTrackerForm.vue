@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <div v-if="person" class="person">
-      <p>Hello, {{person.name}}</p>
+      <p>Hello, {{person.name}} Calories left: {{caloriesInfo}}</p>
       <h3>Your details</h3>
       <label>Age:</label>
       <input type="number" v-model="age">
@@ -55,9 +55,7 @@
           <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
           <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
         </select>
-
-        <label>Daily calories:</label>
-        <input type="number" v-model="dailyRequiredCalories" disabled>
+        <input type="hidden" v-model="dailyRequiredCalories">
       </div>
       <div v-else>
         <h3>Add food details</h3>
@@ -120,6 +118,13 @@ export default {
       }
     }
   },
+  computed: {
+    caloriesInfo(){
+      if (this.checkMeal()){
+        return this.checkMeal().caloriesLeft;
+      }
+    }
+  },
   methods: {
     calculateBMR(){
       const femaleBMR = (655 + (9.6*this.weight) + (1.8*this.height) - (4.7*this.age));
@@ -138,7 +143,7 @@ export default {
     },
     calculateCalories(meal){
       let totalCalories = 0;
-      if (this.checkMeal() != null) {
+      if (this.checkMeal()) {
         const mealTypes = ["breakfast", "lunch", "dinner"];
         const types = mealTypes.filter(mealType => Object.keys(meal).includes(mealType));
         const values = types.map(type => Object.values(meal[type]).reduce((total, calorieValue) => total + calorieValue, 0));
@@ -165,7 +170,7 @@ export default {
       }
 
       if (this.person){
-        if (this.checkMeal() != null) {
+        if (this.checkMeal()) {
           const mealObject = this.checkMeal();
           const keyExists = Object.keys(mealObject).includes(this.mealType);
           const mealId = this.checkMeal()._id;
