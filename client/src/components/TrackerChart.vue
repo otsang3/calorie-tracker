@@ -99,5 +99,6 @@ div {
 
 p {
   text-align: center;
+  padding-bottom: 50px;
 }
 </style>

@@ -1,15 +1,9 @@
 const personUrl = 'http://localhost:3000/api/tracker/person/';
-const foodUrl = 'http://localhost:3000//api/tracker/foodItems/';
 const mealsUrl = 'http://localhost:3000/api/calorieTracker/';
 
 export default {
   getPersonData() {
     return fetch(personUrl)
-    .then(res => res.json())
-  },
-
-  getfoodData() {
-    return fetch(foodUrl)
     .then(res => res.json())
   },
 

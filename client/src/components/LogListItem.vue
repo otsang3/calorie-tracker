@@ -7,12 +7,12 @@
 
     <div class="flex-item">
       <label>Calories Limit: </label>
-      <label>{{meal.caloriesEntered}}</label>
+      <label>{{meal.dailyCalories}}</label>
     </div>
 
     <div class="flex-item">
       <label>Calories Consumed: </label>
-      <label>{{meal.caloriesEntered - meal.caloriesLeft}}</label>
+      <label>{{meal.caloriesEntered}}</label>
     </div>
 
     <div class="flex-item">
@@ -20,7 +20,6 @@
       <label v-bind:class="meal.caloriesLeft > 0 ? 'label-green' : 'label-red'">{{meal.caloriesLeft}}</label>
     </div>
 
-    <!-- <p>Date: {{meal.date}} Calorie Limit: {{meal.caloriesEntered}} Calories over/under: {{meal.caloriesLeft}}</p> -->
   </div>
 </template>
 
@@ -29,6 +28,7 @@ import {eventBus} from '@/main.js'
 import CalorieTrackerService from '@/services/CalorieTrackerService.js'
 export default {
   name: 'log-list-item',
+  props: ['meal'],
   data(){
     return {
       date: this.meal.date,
@@ -37,20 +37,8 @@ export default {
       caloriesInFood: Object.values(Object.entries(this.meal)[4][1]).valueOf()[0]
 
     }
-  },
-  methods: {
-    updateMeal(){
-      const updatedMeal = {
+  }
 
-      }
-      CalorieTrackerService.updateMealDetails(updatedMeal, this.meal._id)
-    },
-    deleteMeal(){
-      CalorieTrackerService.deleteMeal(this.meal._id)
-      .then(() => eventBus.$emit('meal-deleted', this.meal._id))
-    }
-  },
-  props: ['meal']
 }
 </script>
 

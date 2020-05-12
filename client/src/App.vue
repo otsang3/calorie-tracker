@@ -6,65 +6,6 @@
       <filter-data-by-date class="div-padding":meals="meals"></filter-data-by-date>
       <tracker-chart v-if="selectedMeals.length" :meals="selectedMeals"></tracker-chart>
     </div>
-
-
-<<<<<<< HEAD
-export default {
-  name: 'App',
-  data(){
-    return {
-      person: {},
-      meals: [],
-      selectedMeals: []
-    };
-  },
-  components: {
-    'calorie-tracker-form': CalorieTrackerForm,
-    'log-list': LogList,
-    'filter-data-by-date': FilterForm,
-    'tracker-chart': TrackerChart
-  },
-  mounted(){
-    this.getPersonDetails();
-    this.getMealDetails();
-    const mealsCallBack = (updatedMeal) => {
-      const index = this.meals.findIndex(meal => meal._id === updatedMeal._id);
-      this.meals.splice(index, 1, updatedMeal);
-    };
-    eventBus.$on('new-person-added', (person) => {
-      this.person = person;
-    });
-    eventBus.$on('person-details-updated', (person) => {
-      this.person = person;
-    });
-    eventBus.$on('profile-deleted', () => {
-      this.person = null;
-    });
-    eventBus.$on('new-meal-added', (meal) => {
-      this.meals.push(meal);
-    });
-    eventBus.$on('meal-updated', mealsCallBack);
-    eventBus.$on('meal-item-updated', mealsCallBack);
-    eventBus.$on('meal-item-deleted', mealsCallBack);
-    eventBus.$on('update-meal-calories', mealsCallBack);
-    eventBus.$on('all-meals-deleted', (meals) => {
-      this.meals = meals;
-    });
-    eventBus.$on('selected-meals', (meals) => {
-      this.selectedMeals = meals
-    })
-  },
-  methods:{
-    getPersonDetails(){
-      TrackerService.getPersonData()
-      .then((person) => {
-        if (person[0]) {
-          this.person = person[0]
-        } else {
-          this.person = null
-        }
-=======
-
   </template>
 
   <script>
@@ -74,7 +15,6 @@ export default {
   import TrackerChart from '@/components/TrackerChart.vue';
   import TrackerService from '@/services/CalorieTrackerService.js';
   import {eventBus} from '@/main.js';
-
   export default {
     name: 'App',
     data(){
@@ -112,13 +52,13 @@ export default {
       eventBus.$on('meal-updated', mealsCallBack);
       eventBus.$on('meal-item-updated', mealsCallBack);
       eventBus.$on('meal-item-deleted', mealsCallBack);
+      eventBus.$on('update-meal-calories', mealsCallBack);
       eventBus.$on('all-meals-deleted', (meals) => {
         this.meals = meals;
->>>>>>> css
       });
       eventBus.$on('selected-meals', (meals) => {
-        this.selectedMeals = meals
-      })
+        this.selectedMeals = meals;
+      });
     },
     methods:{
       getPersonDetails(){
@@ -137,8 +77,7 @@ export default {
       }
     }
   }
-
-</script>
+  </script>
 
 <style>
 .background-image {

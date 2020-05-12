@@ -2,7 +2,8 @@
   <div class="form-body">
 
     <div style="padding-left: 10px;" v-if="person">
-      <p>Hello, {{person.name}} Calories left: {{caloriesInfo}}</p>
+      <p>Hello, {{person.name}} <span style="float: right;">{{todaysDate}} Calories left:{{caloriesInfo}}</span></p>
+
 
       <div class="flex-container">
       <div class="flex-item">
@@ -68,13 +69,16 @@
               <input type="number" v-model="age">
             </div>
 
+
+          </div>
+
+          <div class="flex-item">
+
             <div>
               <label>Height (cm)</label>
               <input type="number" v-model="height">
             </div>
-          </div>
-
-          <div class="flex-item">
+            
             <div class="">
               <label>Weight (kg)</label>
               <input type="number" v-model="weight">
@@ -91,7 +95,6 @@
               </select>
             </div>
 
-              <label>Daily calories</label>
               <input type="hidden" v-model="dailyRequiredCalories">
             </div>
           </div>
@@ -162,7 +165,7 @@ export default {
           moderatelyActive: 1.55,
           veryActive: 1.725
         },
-      date: null
+      todaysDate: moment().format('DD-MM-YYYY')
     }
   },
   watch: {
@@ -338,7 +341,7 @@ export default {
     margin: 0px;
     list-style: none;
   }
-  
+
   .save-details {
     padding-left: 470px;
   }
