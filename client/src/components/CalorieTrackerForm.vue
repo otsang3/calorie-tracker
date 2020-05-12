@@ -109,13 +109,14 @@ export default {
       date: null
     }
   },
-  mounted(){
-    if (this.person){
-      this.age = this.person.age;
-      console.log();
-      this.height = this.person.height;
-      this.weight = this.person.weight;
-      this.gender = this.person.gender;
+  watch: {
+    person: function(){
+      if (this.person) {
+        this.age = this.person.age;
+        this.height = this.person.height;
+        this.weight = this.person.weight;
+        this.dailyRequiredCalories = this.person.dailyCalories
+      }
     }
   },
   methods: {

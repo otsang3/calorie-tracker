@@ -1,38 +1,34 @@
 use calorie_tracker;
-db.dropDatabase();
-
-db.person.insertMany([
-  {
-    name: "Joe",
-    height: 184,
-    weight: 100,
-    gender: 'male',
-    age: 40,
-    dailyCalories: 2750,
-    caloriesLeft: 2750,
-    caloriesEntered: 0
-  }
-]);
 
 db.meals.insertMany([
   {
-    date: "08/05/2020",
-    breakfast: {sausages: 100},
-    lunch: {burger: 200},
-    dinner: {chicken: 100}
+    date:"07-05-2020",
+    caloriesLeft:300,
+    caloriesEntered:2200,
+    breakfast:{oatmeal:500,banana:100,porridge:360,apple:230,pear:100,grape:50},
+    lunch:{chicken:500,burger:600,sandwich:100,yoghurt:50,bacon:10,bread:30},
+    dinner:{steak:1000,lamb:550,pork:300,avocado:20}
   },
   {
-    date: "09/05/2020",
-    breakfast: {beans: 100},
-    lunch: {peas: 200},
-    dinner: {haggis: 100}
-  }
-]);
-
-db.foods.insertMany([
+    date:"08-05-2020",
+    caloriesLeft:-500,
+    caloriesEntered:3000,
+    breakfast:{oatmeal:500,banana:100,porridge:360,apple:230,pear:100,grape:50},
+    lunch:{chicken:500,burger:600,sandwich:100,yoghurt:50,bacon:10,bread:30},
+    dinner:{steak:1000,lamb:550,pork:300,avocado:20}
+  },
   {
-    sausages: 100,
-    steak: 300,
-    chips: 500
-  }
+    date:"09-05-2020",
+    caloriesLeft:1000,
+    caloriesEntered:1500,
+    breakfast:{oatmeal:500,banana:100,porridge:360,apple:230,pear:100,grape:50},
+    dinner:{steak:1000,lamb:550,pork:300,avocado:20}
+  },
+  {
+  date:"10-05-2020",
+  caloriesLeft:-250,
+  caloriesEntered:2750,
+  breakfast:{oatmeal:500,banana:100,porridge:360,apple:230,pear:100,grape:50},
+  dinner:{steak:1000,lamb:550,pork:300,avocado:20}
+},
 ]);

@@ -7,9 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
     "moment": "^2.25.3",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-google-charts": "^0.3.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
