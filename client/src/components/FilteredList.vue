@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <filter-list-item v-for="(meal, index) in meals" :key="index" :meal="meal"></filter-list-item>
+    <filter-list-item v-if="meals" v-for="(meal, index) in meals" :key="index" :meal="meal"></filter-list-item>
   </div>
 </template>
 

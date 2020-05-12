@@ -52,6 +52,7 @@ export default {
     eventBus.$on('meal-updated', mealsCallBack);
     eventBus.$on('meal-item-updated', mealsCallBack);
     eventBus.$on('meal-item-deleted', mealsCallBack);
+    eventBus.$on('update-meal-calories', mealsCallBack);
     eventBus.$on('all-meals-deleted', (meals) => {
       this.meals = meals;
     });

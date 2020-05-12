@@ -38,7 +38,9 @@ export default {
     };
   },
   mounted(){
-    this.mealObjectId = this.meal._id;
+    if (this.meal){
+      this.mealObjectId = this.meal._id;
+    }
   },
   computed: {
     breakfast(){
@@ -60,12 +62,19 @@ export default {
     deleteMeal(mealKey, mealType){
       const updatedObject = this.meal;
       delete updatedObject._id;
+      const mealKeyValue = updatedObject[mealType][mealKey];
       delete updatedObject[mealType][mealKey];
+      updatedObject.caloriesEntered -= mealKeyValue;
+      updatedObject.caloriesLeft += mealKeyValue;
       TrackerService.updateMealDetails(updatedObject, this.mealObjectId)
       .then((meal) => eventBus.$emit('meal-item-deleted', meal));
     },
     updateMeal(mealKey, mealValue, mealType){
+      const currentKeyValue = this.meal[mealType][mealKey]
       this.meal[mealType][mealKey] = parseInt(mealValue);
+      this.meal.caloriesLeft += currentKeyValue - mealValue;
+      const calculatedValue = currentKeyValue < mealValue ? mealValue - currentKeyValue : mealValue - currentKeyValue;
+      this.meal.caloriesEntered += calculatedValue;
       const updatedObject = this.meal;
       delete updatedObject._id;
       TrackerService.updateMealDetails(updatedObject, this.mealObjectId)
