@@ -48,16 +48,6 @@ export default {
             label: 'Calories consumed',
             data: this.mealCalories.flat(),
             backgroundColor: this.chartColors,
-            // borderColor: [
-            //   '#36495d',
-            //   '#36495d',
-            //   '#36495d',
-            //   '#36495d',
-            //   '#36495d',
-            //   '#36495d',
-            //   '#36495d',
-            //   '#36495d',
-            // ],
             borderWidth: 2
           }
         ]
