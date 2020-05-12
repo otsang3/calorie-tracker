@@ -8,7 +8,7 @@
 <script>
 import LogListItem from '@/components/LogListItem.vue'
 export default {
-  name: 'meal-list',
+  name: 'log-list',
   components: {
     'log-list-item': LogListItem
   },

@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <div v-if="person" class="person">
-      <p>Hello, {{person.name}}</p>
+      <p>Hello, {{person.name}} Calories left: {{caloriesInfo}}</p>
       <h3>Your details</h3>
       <label>Age:</label>
       <input type="number" v-model="age">
@@ -55,9 +55,7 @@
           <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
           <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
         </select>
-
-        <label>Daily calories:</label>
-        <input type="number" v-model="dailyRequiredCalories" disabled>
+        <input type="hidden" v-model="dailyRequiredCalories">
       </div>
       <div v-else>
         <h3>Add food details</h3>
@@ -95,7 +93,7 @@ export default {
       age: 0,
       height: 0,
       weight: 0,
-      activityLevel: '',
+      activityLevel: 'sedentary',
       dailyRequiredCalories: 0,
       mealType: '',
       foodName: '',
@@ -115,7 +113,17 @@ export default {
         this.age = this.person.age;
         this.height = this.person.height;
         this.weight = this.person.weight;
-        this.dailyRequiredCalories = this.person.dailyCalories
+        this.gender = this.person.gender;
+        this.activityLevel = this.person.activityLevel;
+      }
+    }
+  },
+  computed: {
+    caloriesInfo(){
+      if (this.checkMeal()){
+        return this.checkMeal().caloriesLeft;
+      } else {
+        return this.person.dailyCalories;
       }
     }
   },
@@ -137,7 +145,7 @@ export default {
     },
     calculateCalories(meal){
       let totalCalories = 0;
-      if (this.checkMeal() != null) {
+      if (this.checkMeal()) {
         const mealTypes = ["breakfast", "lunch", "dinner"];
         const types = mealTypes.filter(mealType => Object.keys(meal).includes(mealType));
         const values = types.map(type => Object.values(meal[type]).reduce((total, calorieValue) => total + calorieValue, 0));
@@ -153,6 +161,7 @@ export default {
         const newPerson = {
           name: this.name,
           gender: this.gender,
+          activityLevel: this.activityLevel,
           age: parseInt(this.age),
           height: parseFloat(this.height),
           weight: parseFloat(this.weight),
@@ -163,7 +172,7 @@ export default {
       }
 
       if (this.person){
-        if (this.checkMeal() != null) {
+        if (this.checkMeal()) {
           const mealObject = this.checkMeal();
           const keyExists = Object.keys(mealObject).includes(this.mealType);
           const mealId = this.checkMeal()._id;
@@ -202,6 +211,7 @@ export default {
         age: parseInt(this.age),
         height: parseFloat(this.height),
         weight: parseFloat(this.weight),
+        activityLevel: this.activityLevel,
         dailyCalories: parseInt(this.dailyRequiredCalories)
       }
       TrackerService.updatePersonDetails(updateDetails, this.person._id)
@@ -210,7 +220,7 @@ export default {
     deleteProfile(){
       TrackerService.deletePerson(this.person._id)
       .then(() => eventBus.$emit('profile-deleted', this.person._id));
-      TrackerService.deleteMeal()
+      TrackerService.deleteAllMeals()
       .then((deletedMeals) => eventBus.$emit('all-meals-deleted', deletedMeals));
     }
   }

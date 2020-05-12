@@ -2,7 +2,7 @@
   <section>
     <h3>Filter log</h3>
     <p>Please enter a date range:</p>
-    <form v-on:submit.prevent="filterData">
+  <form v-on:submit.prevent="filterData">
     <label for="from">From:</label>
     <input id="from" type="date" :max="dates.to" v-model="dates.from" required/>
     <label for="to">To:</label>
