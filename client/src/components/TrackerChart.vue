@@ -63,6 +63,7 @@ export default {
         ]
       },
       options: {
+      lineAt: 2500,
       legend: { display: false },
       title: {
         display: true,
