@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="app" style="position:absolute; width:600px; height:600px;">
+  <div id="app">
     <canvas id="calories-chart"></canvas>
     <p for="">Daily Calories: {{this.meals[0].caloriesEntered}}</p>
   </div>
@@ -97,6 +97,15 @@ watch: {
 </script>
 
 <style lang="css" scoped>
+
+div {
+  max-height: 300px;
+  max-width: 800px;
+  position: absolute;
+  left: 250px;
+  right: 250px;
+}
+
 p {
   text-align: center;
 }

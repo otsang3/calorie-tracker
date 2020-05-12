@@ -1,6 +1,6 @@
 <template lang="html">
-  <div>
-    <div class="box" v-if="person">
+  <div class="form-body">
+    <div v-if="person">
       <p>Hello, {{person.name}}</p>
       <h3>Your details</h3>
       <label>Age:</label>
@@ -244,22 +244,26 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .person {
-  background-color: lightgrey;
+  .form-body {
+  background-color: #ffffff;
   border: 1px solid black;
   border-radius: 5px;
-  padding: 20px;
-  margin: 10px;
+  padding: 0px;
+  margin: 0px;
+  opacity: 1;
+  color: white;
+  text-shadow: 2px 2px #000000;
+  opacity: 0.95;
   }
 
   label {
-    font-size: 15px;
+    font-size: 13px;
     display: inline-block;
     width: 150px;
     text-align: left;
-    padding-left: 10px;
-    padding-bottom: 10px;
-    font-weight: lighter;
+    padding-left: 0px;
+    padding-bottom: 15px;
+    font-weight: bold;
   }
   h2 {
     font-weight: 100;
@@ -286,11 +290,14 @@ export default {
 
   }
 
+  input {
+
+  }
+
   input[type=submit] {
-    padding:5px 15px; background:#ccc; border:0 none;
-    cursor:pointer;
-    -webkit-border-radius: 5px;
-    border-radius: 5px; }
+    padding:5px 15px; background:#F5F5F5; border:0 none;
+    border-radius: 5px
+    }
 
     .save-details {
       padding-left: 775px;
