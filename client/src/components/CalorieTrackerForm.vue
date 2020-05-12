@@ -1,28 +1,46 @@
 <template lang="html">
   <div class="form-body">
-    <div v-if="person">
+
+    <div style="padding-left: 10px;" v-if="person">
       <p>Hello, {{person.name}}</p>
-      <h3>Your details</h3>
-      <label>Age:</label>
-      <input type="number" v-model="age">
 
-      <label>Height (cm):</label>
-      <input type="numbers" v-model="height">
+      <div class="flex-container">
+      <div class="flex-item">
+        <h3>Your details</h3>
+        <div>
+          <label>Age:</label>
+          <input type="number" v-model="age">
+        </div>
 
-      <label>Weight (kg):</label>
-      <input type="numbers" v-model="weight">
+        <div>
+          <label>Height (cm):</label>
+          <input type="numbers" v-model="height">
+        </div>
+        <div>
+          <label>Weight (kg):</label>
+          <input type="numbers" v-model="weight">
+        </div>
 
-      <label>Activity level:</label>
-      <select v-model="activityLevel">
-        <option disabled>Select an activity level</option>
-        <option value="sedentary">Sedentary (little to no exercise)</option>
-        <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
-        <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
-        <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
-      </select>
+        <div>
+          <label>Activity level:</label>
+          <select v-model="activityLevel">
+            <option disabled>Select an activity level</option>
+            <option value="sedentary">Sedentary (little to no exercise)</option>
+            <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
+            <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
+            <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
+          </select>
+        </div>
 
-      <button type="button" v-on:click="updateDetails">update details</button>
-      <button type="button" v-on:click="deleteProfile">DELETE profile!</button>
+        <button type="button" v-on:click="updateDetails">update details</button>
+        <button type="button" v-on:click="deleteProfile">DELETE profile!</button>
+      </div>
+
+
+
+    </div>
+
+
     </div>
 
     <form v-on:submit.prevent="saveInfo" method="POST">
@@ -50,7 +68,7 @@
               <input type="number" v-model="age">
             </div>
 
-            <div class="">
+            <div>
               <label>Height (cm)</label>
               <input type="number" v-model="height">
             </div>
@@ -83,22 +101,34 @@
         </div>
 
       <div v-else>
-        <h3>Add food details</h3>
-        <label for="">Food name:</label>
-        <input type="text" v-model="foodName">
 
-        <label>Meal type</label>
-        <select v-model="mealType">
-          <option disabled>Select a meal type</option>
-          <option value="breakfast">breakfast</option>
-          <option value="lunch">lunch</option>
-          <option value="dinner">dinner</option>
-        </select>
+        <div style="padding-right: 200px;" class="flex-container">
+          <div class="flex-item">
+            <h3>Add food details</h3>
+            <div class="">
+              <label for="">Food name:</label>
+              <input type="text" v-model="foodName">
+            </div>
 
-        <label for="">Calories</label>
-        <input type="number" v-model="foodCalories">
+            <div class="">
+              <label>Meal type</label>
+              <select v-model="mealType">
+                <option disabled>Select a meal type</option>
+                <option value="breakfast">breakfast</option>
+                <option value="lunch">lunch</option>
+                <option value="dinner">dinner</option>
+              </select>
+            </div>
+
+
+            <label for="">Calories</label>
+            <input type="number" v-model="foodCalories">
+          </div>
+        </div>
+
+
       </div>
-      <div class="save-details">
+      <div v-bind:class="person ? 'save-details' : 'save-details-2'">
           <input type="submit" value="save details">
       </div>
         <!-- <input class="save-details" type="submit" value="save details"> -->
@@ -294,13 +324,17 @@ export default {
 
   }
 
-  input[type=submit] {
+  /* input[type=submit] {
     padding:5px 15px; background:#F5F5F5; border:0 none;
     border-radius: 5px
-    }
+    } */
 
     .save-details {
-      padding-left: 775px;
+      padding-left: 470px;
+    }
+
+    .save-details-2 {
+      padding-left:770px;
     }
 
 
