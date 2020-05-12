@@ -1,11 +1,11 @@
 <template lang="html">
   <section>
-    <h3>Filter log</h3>
+    <h1>Filter log</h1>
     <p>Please enter a date range:</p>
-  <form v-on:submit.prevent="filterData">
-    <label for="from">From:</label>
+  <form style="padding-bottom: 30px;"v-on:submit.prevent="filterData">
+    <label for="from">From</label>
     <input id="from" type="date" :max="dates.to" v-model="dates.from" required/>
-    <label for="to">To:</label>
+    <label for="to">To</label>
     <input id="to" type="date" :min="dates.from" v-model="dates.to" required/>
     <input type="submit" value="search"/>
   </form>
@@ -52,4 +52,19 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+h1 {
+  font-size: 32px;
+  padding-bottom: 45px;
+}
+
+section {
+  text-align: center;
+}
+
+label {
+  font-size: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 </style>

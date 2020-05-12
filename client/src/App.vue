@@ -1,10 +1,13 @@
 <template lang="html">
     <div id="app">
       <calorie-tracker-form class="background-image" :meals="meals" :person="person"></calorie-tracker-form>
-      <log-list :meals="meals"></log-list>
-      <filter-data-by-date :meals="meals"></filter-data-by-date>
+      <log-list class="div-padding" :meals="meals"></log-list>
+          <div class="fade_rule"></div>
+      <filter-data-by-date class="div-padding":meals="meals"></filter-data-by-date>
       <tracker-chart v-if="selectedMeals.length" :meals="selectedMeals"></tracker-chart>
     </div>
+
+
 
   </template>
 
@@ -85,9 +88,28 @@
   background-image: url('../public/background-image4.png');
   overflow: hidden;
   background-size: cover;
-  width: 100%;
+  width: 100;
   height: 400px;
 }
+
+.div-padding {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.fade_rule {
+        height: 1px;
+        background-color: #E6E6E6;
+        width: 66.0em;
+        margin: 0 auto;
+        background-image: linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -o-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -moz-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -webkit-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -ms-linear-gradient(left , white 2%, #E6E6E6 50%, white 98%);
+        background-image: -webkit-gradient( linear, left bottom, right bottom, color-stop(0.02, white), color-stop(0.5, gray), color-stop(0.98, white) );
+}
+
 
 #app {
   font-family: "Open Sans",Verdana;
