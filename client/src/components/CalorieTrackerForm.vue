@@ -122,6 +122,8 @@ export default {
     caloriesInfo(){
       if (this.checkMeal()){
         return this.checkMeal().caloriesLeft;
+      } else {
+        return this.person.dailyCalories;
       }
     }
   },
