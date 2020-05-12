@@ -27,36 +27,38 @@
 
     <form v-on:submit.prevent="saveInfo" method="POST">
       <div v-if="!person">
-        <h3>Hi! Enter your details below to get started!</h3>
-        <div class="personDetails">
-        <label>Name:</label>
+        <h3>Hi! Please enter your details below to start tracking your calories!</h3>
+        <div class="">
+        <label>Name</label>
         <input type="text" v-model="name">
-
-        <label>Gender:</label>
-
-        <div>
-
-        <input type="radio" id="tr0" name="tr" :value="male" v-model="gender">male
-        <input type="radio" id="tr1" name="tr" :value="female" v-model="gender">female
-
       </div>
 
-        <!-- <select v-model="gender">
+      <div class="">
+        <label>Gender</label>
+        <select v-model="gender">
           <option disabled>Select a gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
-        </select> -->
+        </select>
+      </div>
 
-        <label>Age:</label>
+      <div>
+        <label>Age</label>
         <input type="number" v-model="age">
+      </div>
 
-        <label>Height (cm):</label>
+      <div class="">
+        <label>Height (cm)</label>
         <input type="number" v-model="height">
+      </div>
 
-        <label>Weight (kg):</label>
+      <div class="">
+        <label>Weight (kg)</label>
         <input type="number" v-model="weight">
+      </div>
 
-        <label>Activity level:</label>
+      <div>
+        <label>Activity level</label>
         <select v-model="activityLevel">
           <option disabled>Select an activity level</option>
           <option value="sedentary">Sedentary (little to no exercise)</option>
@@ -64,17 +66,17 @@
           <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
           <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
         </select>
-
-        <label>Daily calories:</label>
-        <input type="number" v-model="dailyRequiredCalories" disabled>
       </div>
+
+        <label>Daily calories</label>
+        <input type="number" v-model="dailyRequiredCalories" disabled>
       </div>
       <div v-else>
         <h3>Add food details</h3>
         <label for="">Food name:</label>
         <input type="text" v-model="foodName">
 
-        <label>Meal type:</label>
+        <label>Meal type</label>
         <select v-model="mealType">
           <option disabled>Select a meal type</option>
           <option value="breakfast">breakfast</option>
@@ -235,12 +237,10 @@ export default {
   padding: 20px;
   margin: 10px;
   }
-  .personDetails {
-    display: flex;
-    flex-row: row wrap;
-    flex-direction: column;
-    width: 200px;
+  label {
+    display: inline-block;
+    width: 150px;
+    text-align: left;
   }
-
 
 </style>
