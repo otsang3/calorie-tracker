@@ -210,7 +210,7 @@ export default {
     deleteProfile(){
       TrackerService.deletePerson(this.person._id)
       .then(() => eventBus.$emit('profile-deleted', this.person._id));
-      TrackerService.deleteMeal()
+      TrackerService.deleteAllMeals()
       .then((deletedMeals) => eventBus.$emit('all-meals-deleted', deletedMeals));
     }
   }

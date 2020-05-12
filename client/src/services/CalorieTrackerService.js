@@ -62,11 +62,7 @@ export default {
     return fetch(personUrl + id, {method: 'DELETE'})
   },
 
-  deleteMeal(id){
-    return fetch(mealsUrl + id, {method: 'DELETE'})
-  },
-
-  deleteMeal(){
+  deleteAllMeals(){
     return fetch(mealsUrl, {method: 'DELETE'})
   }
 

@@ -33,8 +33,12 @@ export default {
       allMeals: [],
       mealTypes: ["breakfast", "lunch", "dinner"],
       mealKeys: [],
-      mealValues: []
+      mealValues: [],
+      mealObjectId: null
     };
+  },
+  mounted(){
+    this.mealObjectId = this.meal._id;
   },
   computed: {
     breakfast(){
@@ -55,18 +59,16 @@ export default {
     },
     deleteMeal(mealKey, mealType){
       const updatedObject = this.meal;
-      const mealObjectId = this.meal._id;
       delete updatedObject._id;
       delete updatedObject[mealType][mealKey];
-      TrackerService.updateMealDetails(updatedObject, mealObjectId)
+      TrackerService.updateMealDetails(updatedObject, this.mealObjectId)
       .then((meal) => eventBus.$emit('meal-item-deleted', meal));
     },
     updateMeal(mealKey, mealValue, mealType){
       this.meal[mealType][mealKey] = parseInt(mealValue);
       const updatedObject = this.meal;
-      const mealObjectId = this.meal._id;
       delete updatedObject._id;
-      TrackerService.updateMealDetails(updatedObject, mealObjectId)
+      TrackerService.updateMealDetails(updatedObject, this.mealObjectId)
       .then((meal) => eventBus.$emit('meal-item-updated', meal));
     }
   }
