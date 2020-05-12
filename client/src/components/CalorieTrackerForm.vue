@@ -194,6 +194,7 @@ export default {
           const totalCalories = this.calculateCalories(newMeal);
           const newMeal = {
             date: moment().format('DD-MM-YYYY'),
+            dailyCalories: parseInt(this.dailyRequiredCalories),
             caloriesLeft: totalCalories[1] - parseInt(this.foodCalories),
             caloriesEntered: totalCalories[0] + parseInt(this.foodCalories)
           }
@@ -216,6 +217,16 @@ export default {
       }
       TrackerService.updatePersonDetails(updateDetails, this.person._id)
       .then((person) => eventBus.$emit('person-details-updated', person));
+
+      const mealObject = this.checkMeal();
+      const mealId = this.checkMeal()._id;
+      delete mealObject._id
+      mealObject.dailyCalories = parseInt(this.dailyRequiredCalories);
+      const totalCalories = this.calculateCalories(mealObject);
+      mealObject.caloriesLeft = parseInt(this.dailyRequiredCalories) - totalCalories[0];
+      mealObject.caloriesEntered = totalCalories[0];
+      TrackerService.updateMealDetails(mealObject, mealId)
+      .then((meal) => eventBus.$emit('update-meal-calories', meal));
     },
     deleteProfile(){
       TrackerService.deletePerson(this.person._id)
