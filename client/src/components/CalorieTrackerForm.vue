@@ -27,50 +27,61 @@
 
     <form v-on:submit.prevent="saveInfo" method="POST">
       <div v-if="!person">
-        <h3>Hi! Please enter your details below to start tracking your calories!</h3>
-        <div class="">
-        <label>Name</label>
-        <input type="text" v-model="name">
-      </div>
+        <h2 style="text-align:center;">Hi! Please enter your details below to start tracking your calories!</h2>
+        <div class="flex-container">
+          <div class="flex-item">
+            <div class="">
+              <label>Name</label>
+              <input type="text" v-model="name">
+            </div>
 
-      <div class="">
-        <label>Gender</label>
-        <select v-model="gender">
-          <option disabled>Select a gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-      </div>
 
-      <div>
-        <label>Age</label>
-        <input type="number" v-model="age">
-      </div>
+            <div class="">
+              <label>Gender</label>
+              <select v-model="gender">
+                <option disabled>Select a gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
 
-      <div class="">
-        <label>Height (cm)</label>
-        <input type="number" v-model="height">
-      </div>
+            <div>
+              <label>Age</label>
+              <input type="number" v-model="age">
+            </div>
 
-      <div class="">
-        <label>Weight (kg)</label>
-        <input type="number" v-model="weight">
-      </div>
+            <div class="">
+              <label>Height (cm)</label>
+              <input type="number" v-model="height">
+            </div>
+          </div>
 
-      <div>
-        <label>Activity level</label>
-        <select v-model="activityLevel">
-          <option disabled>Select an activity level</option>
-          <option value="sedentary">Sedentary (little to no exercise)</option>
-          <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
-          <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
-          <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
-        </select>
-      </div>
+          <div class="flex-item">
+            <div class="">
+              <label>Weight (kg)</label>
+              <input type="number" v-model="weight">
+            </div>
 
-        <label>Daily calories</label>
-        <input type="number" v-model="dailyRequiredCalories" disabled>
-      </div>
+            <div>
+              <label>Activity level</label>
+              <select v-model="activityLevel">
+                <option disabled>Select an activity level</option>
+                <option value="sedentary">Sedentary (little to no exercise)</option>
+                <option value="lightlyActive">Lightly Active (light exercise 1 - 3 days per week)</option>
+                <option value="moderatelyActive">Moderately Active (moderate exercise 3 - 5 days per weeek)</option>
+                <option value="veryActive">Very Active (heavy exercise 6 - 7 days per week)</option>
+              </select>
+            </div>
+
+              <label>Daily calories</label>
+              <input type="number" v-model="dailyRequiredCalories" disabled>
+            </div>
+          </div>
+
+
+
+        </div>
+
       <div v-else>
         <h3>Add food details</h3>
         <label for="">Food name:</label>
@@ -87,7 +98,10 @@
         <label for="">Calories</label>
         <input type="number" v-model="foodCalories">
       </div>
-        <input type="submit" value="save details">
+      <div class="save-details">
+          <input type="submit" value="save details">
+      </div>
+        <!-- <input class="save-details" type="submit" value="save details"> -->
     </form>
   </div>
 </template>
@@ -237,10 +251,50 @@ export default {
   padding: 20px;
   margin: 10px;
   }
+
   label {
+    font-size: 15px;
     display: inline-block;
     width: 150px;
     text-align: left;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    font-weight: lighter;
   }
+  h2 {
+    font-weight: 100;
+    padding-bottom: 50px;
+  }
+
+  select {
+  padding: 16px 20px;
+  border-radius: 25px;
+  background-color: #F5F5F5;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+  }
+
+  .flex-item {
+
+  }
+
+  input[type=submit] {
+    padding:5px 15px; background:#ccc; border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; }
+
+    .save-details {
+      padding-left: 775px;
+    }
+
 
 </style>
