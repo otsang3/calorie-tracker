@@ -1,6 +1,6 @@
 <template lang="html">
-  <div>
-    <h1 style="text-align: center;">Calorie Log</h1>
+  <div >
+    <h1 v-if="meals.length" style="text-align: center;">Calorie Log</h1>
     <log-list-item style="text-align: center;" v-for="(meal, index) in meals" :key="index" :meal="meal"></log-list-item>
   </div>
 </template>

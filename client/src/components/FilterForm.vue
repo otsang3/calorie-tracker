@@ -1,6 +1,6 @@
 <template lang="html">
-  <section>
-    <h1>Filter log</h1>
+  <section v-if="meals.length">
+    <h1 >Filter log</h1>
     <p>Please enter a date range:</p>
   <form style="padding-bottom: 30px;"v-on:submit.prevent="filterData">
     <label for="from">From</label>
