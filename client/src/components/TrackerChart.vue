@@ -93,7 +93,7 @@ div {
   max-height: 300px;
   max-width: 800px;
   position: absolute;
-  left: 250px;
+  left: 310px;
   right: 250px;
 }
 

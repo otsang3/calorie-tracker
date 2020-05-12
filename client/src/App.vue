@@ -1,6 +1,6 @@
 <template lang="html">
     <div id="app">
-      <calorie-tracker-form class="background-image" :meals="meals" :person="person"></calorie-tracker-form>
+      <calorie-tracker-form v-bind:class="meals.length ? 'background-image' : 'background-image2'" :meals="meals" :person="person"></calorie-tracker-form>
       <log-list class="div-padding" :meals="meals"></log-list>
           <div class="fade_rule"></div>
       <filter-data-by-date class="div-padding":meals="meals"></filter-data-by-date>
@@ -88,6 +88,14 @@
   height: 500px;
 }
 
+.background-image2 {
+  background-image: url('../public/background-image4.png');
+  overflow: hidden;
+  background-size: cover;
+  width: 100;
+  height: 700px;
+}
+
 .div-padding {
   padding-top: 100px;
   padding-bottom: 100px;
@@ -113,6 +121,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
