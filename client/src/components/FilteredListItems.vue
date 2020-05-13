@@ -1,9 +1,9 @@
 <template lang="html">
-  <div v-bind:class="meal.date < todaysDate ? 'past-dates' : 'todays-date'">
-    <p>Date: {{meal.date}}</p>
-    <p>Calories left: {{meal.caloriesLeft}}</p>
-    <p>Calories added: {{meal.caloriesEntered}}</p>
+  <div>
     <div v-if="meal.date == todaysDate">
+      <p>Date: {{meal.date}}</p>
+      <p>Calories left: {{meal.caloriesLeft}}</p>
+      <p>Calories added: {{meal.caloriesEntered}}</p>
       <div v-if="meal.breakfast">
         <h4>Breakfast</h4>
         <div v-for="[key, value] of Object.entries(meal.breakfast)">
@@ -26,17 +26,33 @@
         </div>
       </div>
     </div>
-
+    <div id="click-me" v-else>
+      <div v-on:click="handleClick" >
+        <div class="past-dates">
+          <p>Date: {{meal.date}}</p>
+          <p>Calories left: {{meal.caloriesLeft}}</p>
+          <p>Calories added: {{meal.caloriesEntered}}</p>
+        </div>
+        <span v-if="!selectedMeal" id="hover-text">
+          click to view foods
+        </span>
+      </div>
+        <meal-detail v-if="selectedMeal" :meal="selectedMeal"></meal-detail>
+    </div>
   </div>
 </template>
 
 <script>
+import MealDetail from '@/components/MealDetails.vue'
 import TrackerService from '@/services/CalorieTrackerService.js';
 import {eventBus} from '@/main.js';
 import moment from 'moment';
 
 export default {
   name: 'list-item',
+  components: {
+    'meal-detail': MealDetail
+  },
   props: ['meal'],
   data(){
     return {
@@ -45,6 +61,7 @@ export default {
       mealKeys: [],
       mealValues: [],
       mealObjectId: null,
+      selectedMeal: null,
       todaysDate: moment().format('DD-MM-YYYY')
     };
   },
@@ -74,6 +91,9 @@ export default {
       delete updatedObject._id;
       TrackerService.updateMealDetails(updatedObject, this.mealObjectId)
       .then((meal) => eventBus.$emit('meal-item-updated', meal));
+    },
+    handleClick(){
+      this.selectedMeal = this.meal;
     }
   }
 }
@@ -81,15 +101,29 @@ export default {
 
 <style lang="css" scoped>
 
-.past-dates {
-  text-decoration: line-through;
-  padding-left: 25px;
-  padding-right: 25px;
-}
+  .past-dates {
+    font-style: italic;
+    text-decoration: line-through;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
 
-.todays-date {
-  color: black;
-  padding-left: 25px;
-  padding-right: 25px;
-}
+  .todays-date {
+    color: black;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  #hover-text {
+    border: 1px solid #ccc;
+    display: none;
+    font-size: 10px;
+    margin-top: 10px;
+    padding: 5px;
+  }
+
+  #click-me:hover #hover-text {
+    display: block;
+  }
+
 </style>

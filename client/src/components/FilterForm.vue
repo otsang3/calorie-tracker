@@ -47,6 +47,13 @@ export default {
       this.selectedMeals = result;
       eventBus.$emit('selected-meals', this.selectedMeals)
     }
+  },
+  watch: {
+    meals: function(){
+      if (this.meals) {
+        this.filterData()
+      }
+    }
   }
 }
 </script>
