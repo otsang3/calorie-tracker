@@ -4,7 +4,7 @@
       <log-list class="div-padding" :meals="meals"></log-list>
       <div v-if="meals.length" class="fade_rule"></div>
       <filter-data-by-date class="div-padding":meals="meals"></filter-data-by-date>
-      <tracker-chart v-if="selectedMeals.length" :meals="selectedMeals"></tracker-chart>
+      <tracker-chart v-if="selectedMeals.length && person" :meals="selectedMeals"></tracker-chart>
     </div>
   </template>
 
