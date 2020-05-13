@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="app">
     <canvas id="calories-chart"></canvas>
-    <p for="">Daily Calories: {{this.meals[0].caloriesEntered}}</p>
+    <p for="">Daily Calories: {{this.meals[0].dailyCalories}}</p>
   </div>
 </template>
 
