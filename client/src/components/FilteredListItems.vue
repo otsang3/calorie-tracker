@@ -1,9 +1,9 @@
 <template lang="html">
-  <div v-bind:class="meal.date < todaysDate ? 'past-dates' : 'todays-date'">
-    <p>Date: {{meal.date}}</p>
-    <p>Calories left: {{meal.caloriesLeft}}</p>
-    <p>Calories added: {{meal.caloriesEntered}}</p>
+  <div>
     <div v-if="meal.date == todaysDate">
+      <p>Date: {{meal.date}}</p>
+      <p>Calories left: {{meal.caloriesLeft}}</p>
+      <p>Calories added: {{meal.caloriesEntered}}</p>
       <div v-if="meal.breakfast">
         <h4>Breakfast</h4>
         <div v-for="[key, value] of Object.entries(meal.breakfast)">
@@ -26,7 +26,11 @@
         </div>
       </div>
     </div>
-
+    <div v-else>
+      <p v-on:click="handleClick">Date: {{meal.date}}</p>
+      <p>Calories left: {{meal.caloriesLeft}}</p>
+      <p>Calories added: {{meal.caloriesEntered}}</p>
+    </div>
   </div>
 </template>
 
@@ -74,6 +78,9 @@ export default {
       delete updatedObject._id;
       TrackerService.updateMealDetails(updatedObject, this.mealObjectId)
       .then((meal) => eventBus.$emit('meal-item-updated', meal));
+    },
+    handleClick(){
+      eventBus.$emit('meal-selected', this.meal);
     }
   }
 }

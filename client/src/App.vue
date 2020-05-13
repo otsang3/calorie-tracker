@@ -4,6 +4,7 @@
       <log-list class="div-padding" :meals="meals"></log-list>
           <div class="fade_rule"></div>
       <filter-data-by-date class="div-padding":meals="meals"></filter-data-by-date>
+      <meal-detail v-if="selectedMeal" :meal="selectedMeal"></meal-detail>
       <tracker-chart v-if="selectedMeals.length" :meals="selectedMeals"></tracker-chart>
     </div>
   </template>
@@ -14,6 +15,7 @@
   import FilterForm from '@/components/FilterForm.vue';
   import TrackerChart from '@/components/TrackerChart.vue';
   import TrackerService from '@/services/CalorieTrackerService.js';
+  import MealDetail from '@/components/MealDetails.vue';
   import {eventBus} from '@/main.js';
   export default {
     name: 'App',
@@ -21,14 +23,16 @@
       return {
         person: {},
         meals: [],
-        selectedMeals: []
+        selectedMeals: [],
+        selectedMeal: null
       };
     },
     components: {
       'calorie-tracker-form': CalorieTrackerForm,
       'log-list': LogList,
       'filter-data-by-date': FilterForm,
-      'tracker-chart': TrackerChart
+      'tracker-chart': TrackerChart,
+      'meal-detail': MealDetail
     },
     mounted(){
       this.getPersonDetails();
@@ -59,6 +63,9 @@
       eventBus.$on('selected-meals', (meals) => {
         this.selectedMeals = meals;
       });
+      eventBus.$on('meal-selected', (meal) => {
+        this.selectedMeal = meal;
+      })
     },
     methods:{
       getPersonDetails(){
