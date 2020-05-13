@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="flex-container">
     <filter-list-item v-for="(meal, index) in meals" :key="index" :meal="meal"></filter-list-item>
   </div>
 </template>
@@ -17,4 +17,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 </style>

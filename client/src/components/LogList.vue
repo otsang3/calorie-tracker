@@ -1,7 +1,7 @@
 <template lang="html">
-  <div>
-    <h3>Calorie Log</h3>
-    <log-list-item v-for="(meal, index) in meals" :key="index" :meal="meal"></log-list-item>
+  <div >
+    <h1 v-if="meals.length" style="text-align: center;">Calorie Log</h1>
+    <log-list-item style="text-align: center;" v-for="(meal, index) in meals" :key="index" :meal="meal"></log-list-item>
   </div>
 </template>
 
@@ -17,6 +17,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+h1 {
+  padding-bottom: 45px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

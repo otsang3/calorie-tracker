@@ -12,10 +12,6 @@ MongoClient.connect('mongodb://localhost:27017')
 .then((client) => {
   const db = client.db('calorie_tracker');
 
-  const foodCollection = db.collection('foods');
-  const foodRouter = createRouter(foodCollection);
-  app.use('/api/tracker/foodItems', foodRouter);
-
   const personCollection = db.collection('person');
   const personRouter = createRouter(personCollection);
   app.use('/api/tracker/person', personRouter);
